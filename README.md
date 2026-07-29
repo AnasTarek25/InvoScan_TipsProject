@@ -17,7 +17,8 @@
 
 # 📖 Project Overview
 
-Briefly describe your project.
+This project is done with cooperation with my father who works with many Al-Tazaj branches (Saudi Arabian fast food Franchise). It was created due to the fact that invoice data entry was the main thing that takes way too much time , so he needed an AI workflow that he can send an invoice to and it'll automatically insert it into his database.
+This project is just a concept (not connected to a real Database yet) but hopefully it'll be implemented in the future with even more features 
 
 ---
 
@@ -27,18 +28,19 @@ Briefly describe your project.
 * **Deterministic, template-specific parsing** of the Al-Tazaj invoice layout (invoice number, invoice date, and every line item) using regex — instant, with no LLM/GPU call needed for the normal case
   
 * **Automatic confidence checking** on every parsed row: quantity × unit price is cross-checked against the invoice's stated amount, and any row that's off is flagged `low_confidence` (usually a sign of an OCR misread digit) so it can be manually reviewed
+
+*  **Editable Pre-Save data** the ability to check the processed data for any mistakes caused by ocr or category mismatch before manually adding to databse (low confidence flag helps identify mistakes faster)
   
 * **Rule-based product categorization** across built-in categories (Chicken, Beverages, Desserts, Burgers & Sandwiches, Salads & Vegetables, Sauces & Condiments, Coating & Ingredients), with an **LLM fallback** for any item that doesn't match a known keyword
   
 * **Full LLM extraction fallback** — if the regex parser can't find a single line item at all (e.g. the document isn't the expected template), the LLM extracts the entire invoice instead
+  in summary the LLM is used for invoices that aren't Al-Tazaj template 
   
 * **SQLite-backed database viewer** to browse a single stored invoice's line items, or every invoice at once
   
 * **Cross-invoice aggregation** that sums matching line items (e.g. the same product ordered on more than one invoice) into one combined total per product
   
-* **Expandable per-item breakdown rows** in the aggregated view — any item summed across more than one invoice is tagged, and expanding it shows exactly which invoice(s) it came from and what each contributed
-  
-* **One-click public deployment** straight from Google Colab via an ngrok tunnel, no separate hosting required
+* **One-click public deployment** straight from Kaggle via an ngrok tunnel, no separate hosting required
 
 
 ---
@@ -64,7 +66,7 @@ Briefly describe your project.
 2. Run the setup cells in order — these install the Linux system packages (`poppler-utils`, `tesseract-ocr`) and the required Python libraries (`transformers`, `torch`, `accelerate`, `bitsandbytes`, `pdfplumber`, `pytesseract`, `pdf2image`, `pillow`, `streamlit`, `pyngrok`, `json-repair`, `pandas`, `sentencepiece`).
 3. Run the **LOAD LLM** cell to download and cache the 4-bit Mistral model to disk.
 4. Run the cell that writes out `app.py` (the Streamlit application code).
-5. Get a free auth token from [ngrok.com](https://ngrok.com), then run the final **tunneling & execution** cell — either set it as the `NGROK_AUTH_TOKEN` environment variable beforehand, or enter it when prompted.
+5. Get a free authentication token from [ngrok.com](https://ngrok.com), then run the final **tunneling & execution** cell — either set it as the `NGROK_AUTH_TOKEN` environment variable beforehand, or enter it when prompted.
 
 
 ---
@@ -74,8 +76,7 @@ Briefly describe your project.
 1. Run the notebook's final cell — it starts the Streamlit server and prints a public ngrok URL.
 2. Open that URL in your browser.
 3. **Upload & Ingest tab:** upload a PDF, PNG, or JPG invoice, click **Process Invoice**, and review the parsed result (any low-confidence rows are called out), then save it to the database.
-4. **Database Viewer & Aggregator tab:** choose a specific invoice from the dropdown to see its own line items, or choose **All Invoices** to see every stored invoice's items aggregated by category — expand any item to see which invoice(s) it was combined from.
-
+4. **Database Viewer & Aggregator tab:** choose a specific invoice from the dropdown to see its own line items, or choose **All Invoices** to see every stored invoice's items aggregated by category
 
 ---
 
@@ -98,9 +99,8 @@ By parsing with regex first and only calling the LLM when the deterministic path
 # 🔮 Future Improvements
 
 * To connect it to a full irl database so it works 100% on its own 
-* An Ability to check or correct the items before its inserted into the database
-* apllying it into an ai automated workflow so all the user should do is to send the invoice pdfs and wait for it to be added to the database
-* Add an AI inventory system where at the end of each day  the user types in the stock that has been used to the LLM and it auto sorts everything and tells u what u should buy at the end of the week / month
+* Applying it into an AI automated workflow so all the user has to do is to send the invoice pdfs and wait for it to be added to the database
+* Add an AI inventory system where at the end of each day  the user types in the stock that has been used to the LLM and it auto sorts everything and tells u what you should buy at the end of the week or month
 
 ---
 
