@@ -1,0 +1,26 @@
+# ==============================================================================
+# InvoScan Python Dependencies
+# NOTE: Non-Python system packages must be installed via apt-get first:
+#       sudo apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-ara
+# ==============================================================================
+
+# Machine Learning, LLMs & Quantization
+torch
+transformers
+bitsandbytes>=0.46.1
+accelerate
+sentencepiece
+json-repair
+
+# Document Processing & OCR
+pdfplumber
+pytesseract
+pdf2image
+pillow==10.4.0
+
+# UI & Data Handling
+streamlit
+pandas
+
+# Tunneling & Deployment
+pyngrok
